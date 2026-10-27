@@ -20,6 +20,9 @@ def get_url():
         data2 = json.loads(data2)
         current = data2["current"]
 
+    with open("cityhis.txt", "w") as ch:
+        ch.write(f"===============\nLast city entered: {city}\n===============")
+
     lab.config(
         text=f"temprature: {current['temperature_2m']} °C\nwind speed: {current['wind_speed_10m']}"
      )
@@ -68,10 +71,5 @@ lab2 = tk.Label(
     fg="#FAEB92"
 )
 lab2.place(x=50,y=15)
-
-
-cityget = ent.get()
-with open("cityhis.txt", "w") as ch:
-    ch.write(f"Cities entered: {cityget}")
 
 app.mainloop()

@@ -1,1 +1,3 @@
-Cities entered: 
+===============
+Last city entered: amsterdam
+===============
