@@ -1,6 +1,4 @@
 import tkinter as tk
-from tkinter import messagebox
-import urllib.request
 from urllib.request import urlopen
 import json
 
@@ -30,7 +28,7 @@ def get_url():
 app.minsize(500,600)
 app.resizable(False,False)
 app.config(bg="#000000")
-app.title("Open Weather", ["Bebas Neue"])
+app.title("Open Weather")
 
 ent = tk.Entry(
     master=app,
@@ -64,7 +62,7 @@ lab.place(x=130,y=150)
 
 lab2 = tk.Label(
     master=app,
-    text="open weather",
+    text="weatherapist",
     font=["Bebas Neue", 65],
     bg="black",
     fg="#FAEB92"
