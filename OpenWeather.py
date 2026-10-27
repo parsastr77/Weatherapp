@@ -70,4 +70,8 @@ lab2 = tk.Label(
 lab2.place(x=50,y=15)
 
 
+cityget = ent.get()
+with open("cityhis.txt", "w") as ch:
+    ch.write(f"Cities entered: {cityget}")
+
 app.mainloop()
