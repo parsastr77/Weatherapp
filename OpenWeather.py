@@ -33,10 +33,9 @@ def get_url(event=None):
         if str(e) == "CityNotFound":
             messagebox.showerror("Error", f"{city} could not be found!")
         else:
-            messagebox.showerror("Error", f"یک خطای پیش‌بینی نشده رخ داد: {e}")
+            messagebox.showerror("Error", f"an error occured while sending request to thr server: {e}")
     except Exception as e:
-        # این بخش مثل یک "Armor" عمل می‌کنه که جلوی کرش کردن برنامه رو می‌گیره
-        messagebox.showerror("Error", f"مشکل در اتصال به اینترنت یا سرور: {e}")
+        messagebox.showerror("Error", f"failed to connect to the server: {e}")
 
 
 app.bind('<Return>', get_url)
