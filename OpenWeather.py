@@ -37,6 +37,8 @@ def get_url(event=None):
     except Exception as e:
         messagebox.showerror("Error", f"failed to connect to the server: {e}")
 
+print("hello world!")
+
 
 app.bind('<Return>', get_url)
 
