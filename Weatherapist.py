@@ -8,6 +8,69 @@ import json
 
 app = tk.Tk()
 
+def open_getlatlong():
+    page_get_city = tk.Toplevel()
+
+    page_get_city.minsize(500,600)
+    page_get_city.resizable(False,False)
+    page_get_city.config(bg="black")
+    page_get_city.title("get lat/long")
+
+    lab_result_lat_long = tk.Label(
+    master=page_get_city,
+    text="",
+    font=["Bebas Neue", 24],
+    bg="black",
+    fg="white"
+    )
+    lab_result_lat_long.place(x=140,y=90)
+
+    lab_weatherapist2 = tk.Label(
+    master=page_get_city,
+    text="city finder",
+    font=["Bebas Neue", 35],
+    bg="black",
+    fg="#FAEB92"
+    )
+    lab_weatherapist2.place(x=150,y=9)
+
+    ent_get_lat = tk.Entry(
+    master=page_get_city,
+    bg="#9929EA",
+    fg="#FAEB92",
+    font=["Bebas Neue", 17],
+    width=30,
+    border=4
+    )
+    ent_get_lat.place(x=110,y=240)
+
+    ent_get_long = tk.Entry(
+        master=page_get_city,
+        bg="#9929EA",
+        fg="#FAEB92",
+        font=["Bebas Neue", 17],
+        width=30,
+        border=4
+    )
+    ent_get_long.place(x=110,y=290)
+
+    btn_get_lat_long = tk.Button(
+    master=page_get_city,
+    text="Enter lat/long",
+    bg="#CC66DA",
+    fg="#FAEB92",
+    font=["Bebas Neue", 16],
+    width=20,
+    height=1,
+    command=lambda: get_lat_long(
+        ent_get_lat,
+        ent_get_long,
+        lab_result_lat_long
+        )
+    )
+    btn_get_lat_long.place(x=160,y=380)
+
+
 def get_temp_city(event=None):
     city = ent.get().strip()
     if not city:
@@ -55,13 +118,19 @@ def get_temp_city(event=None):
     except Exception as e:
         messagebox.showerror("Error", f"failed to connect to the server: {e}")
 
-def get_lat_long():
-    latit = float(ent1.get().strip())
-    longit = float(ent2.get().strip())
-    if not latit or not longit:
-        messagebox.showerror("Error", "Please enter a coordinate! ")
+def get_lat_long(entlat, entlong, resulabel):
+    if not entlat.get().strip() or not entlong.get().strip():
+        messagebox.showerror("Error", "Please enter both coordinates!")
         return
+    latit = float(entlat.get().strip())
+    longit = float(entlong.get().strip())
     try:
+        latit = float(entlat.get().strip())
+        longit = float(entlong.get().strip())
+        if not -90 <= latit <= 90:
+            raise ValueError("Invalid latitude!")
+        if not -180 <= longit <= 180:
+            raise ValueError("Invalid longitude!")
         url1 = f"https://nominatim.openstreetmap.org/reverse?lat={latit}&lon={longit}&format=jsonv2&addressdetails=1&accept-language=en"
         req = Request(
                 url1,
@@ -75,7 +144,7 @@ def get_lat_long():
             country = data3["address"]["country"]
             country_code = data3["address"]["country_code"]
 
-        lab.config(
+        resulabel.config(
             text=f"country name: {country}\ncountry code: {country_code}"
         )
 
@@ -92,7 +161,7 @@ def get_lat_long():
 
 app.minsize(500,600)
 app.resizable(False,False)
-app.config(bg="#000000")
+app.config(bg="black")
 app.title("Open Weather")
 
 ent = tk.Entry(
@@ -104,26 +173,6 @@ ent = tk.Entry(
     border=4
 )
 ent.place(x=80,y=420)
-
-ent1 = tk.Entry(
-    master=app,
-    bg="#9929EA",
-    fg="#FAEB92",
-    font=["Bebas Neue", 17],
-    width=30,
-    border=4
-)
-ent1.place(x=110,y=240)
-
-ent2 = tk.Entry(
-    master=app,
-    bg="#9929EA",
-    fg="#FAEB92",
-    font=["Bebas Neue", 17],
-    width=30,
-    border=4
-)
-ent2.place(x=110,y=290)
 
 btn = tk.Button(
     master=app,
@@ -137,17 +186,17 @@ btn = tk.Button(
     )
 btn.place(x=160,y=520)
 
-btn1 = tk.Button(
+btn2 = tk.Button(
     master=app,
-    text="Enter lat/long",
+    text="city finder",
     bg="#CC66DA",
     fg="#FAEB92",
     font=["Bebas Neue", 16],
     width=20,
     height=1,
-    command=get_lat_long
+    command=open_getlatlong
     )
-btn1.place(x=160,y=340)
+btn2.place(x=160,y=200)
 
 
 lab = tk.Label(
@@ -159,14 +208,14 @@ lab = tk.Label(
 )
 lab.place(x=140,y=90)
 
-lab2 = tk.Label(
+lab_weatherapist1 = tk.Label(
     master=app,
     text="weatherapist",
     font=["Bebas Neue", 35],
     bg="black",
     fg="#FAEB92"
 )
-lab2.place(x=136,y=9)
+lab_weatherapist1.place(x=136,y=9)
 
 lab3 = tk.Label(
     master=app,
@@ -176,6 +225,14 @@ lab3 = tk.Label(
     fg="#73027D"
     )   
 lab3.place(x=80,y=470)
+
+lab4 = tk.Label(
+    text="",
+    font=["Bebas Neue", 24],
+    bg="black",
+    fg="white"
+)
+# lab.place(x=140,y=90)
 
 
 app.mainloop()
